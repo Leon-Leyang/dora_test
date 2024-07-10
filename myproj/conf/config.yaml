@@ -3,8 +3,8 @@ defaults:
   - optimizer: sgd
 
 trainer:
-  epochs: 10
-  batch_size: 32
+  epochs: 2
+  batch_size: 512
   distributed: true
 
 dataset:
