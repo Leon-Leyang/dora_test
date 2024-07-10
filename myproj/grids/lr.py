@@ -14,8 +14,4 @@ def explorer(launcher: Launcher):
     # Example iterating over multiple learning rates and batch sizes
     for lr in [0.001, 0.01, 0.1]:
         sub = launcher.bind([f'optimizer.lr={lr}'])
-        sub.slurm_(
-            output=f"logs/lr-{lr}.out",
-            error=f"logs/lr-{lr}.out"
-        )
         sub()
