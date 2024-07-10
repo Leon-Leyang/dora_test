@@ -1,0 +1,12 @@
+defaults:
+  - model: resnet18
+  - optimizer: sgd
+
+trainer:
+  epochs: 10
+  batch_size: 32
+  distributed: true
+
+dataset:
+  path: /users/hleyang/data/hleyang/cifar10
+  num_classes: 10
