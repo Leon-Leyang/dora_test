@@ -1,4 +1,3 @@
-import hydra
 from omegaconf import DictConfig
 import torch.nn as nn
 import torch.optim as optim
@@ -52,7 +51,7 @@ def train(cfg):
     distrib.barrier()
 
 
-@hydra_main(config_path="./conf", config_name="config")
+@hydra_main(config_path="./conf", config_name="config", version_base="1.1")
 def main(cfg: DictConfig):
     train(cfg)
 
