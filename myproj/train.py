@@ -5,13 +5,16 @@ from torch.utils.data import DataLoader, DistributedSampler
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from .model import get_model
-from dora.distrib import init
+from dora.distrib import init, is_master, rank
 from dora import hydra_main
+import torch
 
 
 def train(cfg):
     # Initialize distributed environment
-    distrib = init()
+    init()
+
+    device = torch.device(f"cuda:{rank()}")
 
     # Dataset setup
     transform = transforms.Compose([
@@ -25,7 +28,7 @@ def train(cfg):
     dataloader = DataLoader(dataset, batch_size=cfg.trainer.batch_size, sampler=sampler)
 
     # Model setup
-    model = get_model(cfg).to(distrib.device)
+    model = get_model(cfg).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=cfg.optimizer.lr, momentum=cfg.optimizer.momentum)
 
@@ -35,8 +38,8 @@ def train(cfg):
         if cfg.trainer.distributed:
             sampler.set_epoch(epoch)
         for inputs, labels in dataloader:
-            inputs = inputs.to(distrib.device)
-            labels = labels.to(distrib.device)
+            inputs = inputs.to(device)
+            labels = labels.to(device)
 
             optimizer.zero_grad()
             outputs = model(inputs)
@@ -44,11 +47,8 @@ def train(cfg):
             loss.backward()
             optimizer.step()
 
-        if distrib.is_master:
+        if is_master():
             print(f'Epoch {epoch+1}/{cfg.trainer.epochs} - Loss: {loss.item()}')
-
-    # Ensure synchronization of all processes
-    distrib.barrier()
 
 
 @hydra_main(config_path="./conf", config_name="config", version_base="1.1")
