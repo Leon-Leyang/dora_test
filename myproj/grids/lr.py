@@ -2,7 +2,7 @@ from dora import Explorer, Launcher
 
 
 @Explorer
-def experiment(launcher: Launcher):
+def explorer(launcher: Launcher):
     launcher.slurm_(
         gpus=2,
         mem_per_gpu=32000,
