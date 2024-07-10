@@ -7,6 +7,7 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from .model import get_model
 from dora.distrib import init
+from dora import hydra_main
 
 
 def train(cfg):
@@ -51,7 +52,7 @@ def train(cfg):
     distrib.barrier()
 
 
-@hydra.main(config_path="./conf", config_name="config")
+@hydra_main(config_path="./conf", config_name="config")
 def main(cfg: DictConfig):
     train(cfg)
 
