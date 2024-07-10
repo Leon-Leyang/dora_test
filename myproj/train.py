@@ -5,7 +5,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, DistributedSampler
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-from model import get_model
+from .model import get_model
 from dora.distrib import init
 
 
