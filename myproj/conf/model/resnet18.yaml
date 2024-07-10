@@ -1,3 +1,2 @@
-model:
-  type: resnet18
-  pretrained: false
+type: resnet18
+pretrained: false
