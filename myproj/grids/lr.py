@@ -8,7 +8,7 @@ def explorer(launcher: Launcher):
         partition="gpu",
         time="720",
         cpus_per_gpu=2,
-        setup=['module load miniconda3/23.11.0s', 'conda activate bs'],
+        setup=['module load miniconda3/23.11.0s', 'source activate bs'],
     )
 
     # Example iterating over multiple learning rates and batch sizes
