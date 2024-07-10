@@ -20,7 +20,7 @@ def train(cfg):
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
-    dataset = datasets.CIFAR10(root=cfg.dataset, train=True, download=True, transform=transform)
+    dataset = datasets.CIFAR10(root=cfg.dataset.path, train=True, transform=transform)
     sampler = DistributedSampler(dataset) if cfg.trainer.distributed else None
     dataloader = DataLoader(dataset, batch_size=cfg.trainer.batch_size, sampler=sampler)
 
